@@ -1,5 +1,6 @@
 package com.mavenusrs.vehicles.features.vehicle_list_feat
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
@@ -31,6 +32,7 @@ class GalleryAdapter : ListAdapter<Image, GalleryAdapter.ImageViewHolder>(Images
         }
     }
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
+        Log.d("GalleryAdapter", "${callNumber++}")
         holder.bind(getItem(position).url)
     }
 
@@ -48,5 +50,9 @@ class GalleryAdapter : ListAdapter<Image, GalleryAdapter.ImageViewHolder>(Images
                 .into(vehicleImageView)
         }
 
+    }
+
+    companion object {
+        private var callNumber = 0
     }
 }

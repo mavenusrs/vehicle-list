@@ -4,8 +4,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.size
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -14,10 +15,11 @@ import com.mavenusrs.vehicles.databinding.Vehicle2RowBinding
 import com.mavenusrs.vehicles.databinding.VehicleRowBinding
 import com.mavenusrs.vehicles.domain.model.Image
 import com.mavenusrs.vehicles.domain.model.Vehicle
-import java.lang.Integer.min
 
 class VehicleAdapter :
     ListAdapter<Vehicle, VehicleAdapter.VehicleWithVPHolder>(VehiclesDiffUtil()) {
+
+    private val rvPool = RecyclerView.RecycledViewPool()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VehicleWithVPHolder {
         val binding = Vehicle2RowBinding.inflate(
@@ -45,11 +47,27 @@ class VehicleAdapter :
     }
 
     override fun onBindViewHolder(holder: VehicleWithVPHolder, position: Int) {
-        Log.d("VehicleAdapter", "onBindViewHolder")
+        Log.d("VehicleAdapter", "onBindViewHolder${callNumber ++}")
 
         holder.bind(getItem(position))
 
-        holder.bindViewPager(getItem(position).images)
+        holder.vehicleRecyclerView.apply {
+
+            setRecycledViewPool(rvPool)
+            PagerSnapHelper().attachToRecyclerView(this)
+
+            val linearLayoutManager = LinearLayoutManager(holder.itemView.context)
+            linearLayoutManager.recycleChildrenOnDetach = true
+            linearLayoutManager.orientation = RecyclerView.HORIZONTAL
+            layoutManager = linearLayoutManager
+
+            val gAdapter = GalleryAdapter()
+            adapter = gAdapter
+            // to fix viewpager, if there is not images
+            gAdapter.submitList(getItem(position).images ?: listOf(Image("")))
+
+            holder.bindNavigators()
+        }
 
     }
 
@@ -59,7 +77,7 @@ class VehicleAdapter :
 
     class VehicleWithVPHolder(binding: Vehicle2RowBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        private val vehicleViewPager = binding.vpVehicle
+        val vehicleRecyclerView = binding.vpVehicle
         private val nextImageView = binding.ivNext
         private val previousImageView = binding.ivPrevious
         private val vehicleTitleTextView = binding.tvTitle
@@ -70,23 +88,28 @@ class VehicleAdapter :
         init {
             nextImageView.setOnClickListener {
                 Log.d("VehicleAdapter", "nextImageViewClick")
-                vehicleViewPager.setCurrentItem(
-                    minOf(
-                        vehicleViewPager.currentItem + 1,
-                        (vehicleViewPager.adapter?.itemCount ?: 0) - 1
-                    ),
-                    true
+
+                val llm = vehicleRecyclerView.layoutManager as LinearLayoutManager
+                val currentItemIndex = llm.findFirstCompletelyVisibleItemPosition()
+                val scrollTo = minOf(
+                    currentItemIndex + 1,
+                    (vehicleRecyclerView.adapter?.itemCount ?: 0) - 1
                 )
-                bindNavigators()
+                vehicleRecyclerView.smoothScrollToPosition(scrollTo)
+
+                bindNavigators(scrollTo)
             }
 
             previousImageView.setOnClickListener {
                 Log.d("VehicleAdapter", "previousImageViewClick")
-                vehicleViewPager.setCurrentItem(
-                    maxOf(vehicleViewPager.currentItem - 1, 0),
-                    true
-                )
-                bindNavigators()
+
+                val llm = vehicleRecyclerView.layoutManager as LinearLayoutManager
+                val currentItemIndex =
+                    llm.findFirstCompletelyVisibleItemPosition()
+
+                val scrollTo = maxOf(currentItemIndex - 1, 0)
+                vehicleRecyclerView.smoothScrollToPosition(scrollTo)
+                bindNavigators(scrollTo)
             }
         }
 
@@ -108,25 +131,17 @@ class VehicleAdapter :
             vehicleNotesTextView.text = notes.toString()
         }
 
-        fun bindViewPager(images: List<Image>?) {
-            val adapter = GalleryAdapter()
-            // to fix viewpager, if there is not images
-            adapter.submitList(images ?: listOf(Image("")))
-            vehicleViewPager.adapter = adapter
-
-            bindNavigators()
-        }
-
-        private fun bindNavigators() {
+        fun bindNavigators(currentItemIndex: Int = 0) {
             Log.d(
                 "VehicleAdapter",
-                "current ${vehicleViewPager.currentItem} size ${vehicleViewPager.adapter?.itemCount}"
+                "current $currentItemIndex size ${vehicleRecyclerView.adapter?.itemCount}"
             )
+
             val showNext =
-                vehicleViewPager.currentItem < (vehicleViewPager.adapter?.itemCount ?: 0) - 1
+                currentItemIndex < (vehicleRecyclerView.adapter?.itemCount ?: 0) - 1
             nextImageView.visibility = if (showNext) View.VISIBLE else View.INVISIBLE
 
-            val showPrevious = vehicleViewPager.currentItem > 0
+            val showPrevious = currentItemIndex > 0
             previousImageView.visibility = if (showPrevious) View.VISIBLE else View.INVISIBLE
         }
     }
@@ -168,5 +183,9 @@ class VehicleAdapter :
             vehicleNotesTextView.text = notes.toString()
         }
 
+    }
+
+    companion object {
+        private var callNumber = 0
     }
 }
