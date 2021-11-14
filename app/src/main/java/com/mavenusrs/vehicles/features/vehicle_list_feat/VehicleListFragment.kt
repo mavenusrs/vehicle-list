@@ -112,7 +112,7 @@ class VehicleListFragment : Fragment() {
         binding.rvVehicles.visibility = View.VISIBLE
 
         data?.apply {
-            vehicleAdapter.submitList(this)
+            vehicleAdapter.submitList(data.map { it.copy() })
         }
     }
 
