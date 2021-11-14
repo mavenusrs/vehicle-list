@@ -19,5 +19,10 @@
         android:id="@+id/vehicleDetailsFragment"
         android:name="com.mavenusrs.vehicles.features.vehicle_details.VehicleDetailsFragment"
         android:label="fragment_vehicle_details"
-        tools:layout="@layout/fragment_vehicle_details" />
+        tools:layout="@layout/fragment_vehicle_details">
+
+        <argument
+            android:name="vehicle"
+            app:argType="com.mavenusrs.vehicles.domain.model.Vehicle" />
+    </fragment>
 </navigation>

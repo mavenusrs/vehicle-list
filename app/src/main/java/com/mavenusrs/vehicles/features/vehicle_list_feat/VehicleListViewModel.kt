@@ -3,7 +3,6 @@ package com.mavenusrs.vehicles.features.vehicle_list_feat
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.mavenusrs.vehicles.common.Resource
 import com.mavenusrs.vehicles.domain.model.Note

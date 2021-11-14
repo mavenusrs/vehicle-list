@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/vp_vehicle"
+        android:id="@+id/rv_gallery"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@string/vehicle_image_hint"
@@ -21,9 +21,9 @@
         android:contentDescription="@string/previous_image"
         android:padding="@dimen/_4_dp"
         android:src="@drawable/ic_before_24"
-        app:layout_constraintBottom_toBottomOf="@id/vp_vehicle"
+        app:layout_constraintBottom_toBottomOf="@id/rv_gallery"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/vp_vehicle" />
+        app:layout_constraintTop_toTopOf="@id/rv_gallery" />
 
     <ImageView
         android:id="@+id/iv_next"
@@ -33,9 +33,9 @@
         android:contentDescription="@string/next_image"
         android:padding="@dimen/_4_dp"
         android:src="@drawable/ic_next_24"
-        app:layout_constraintBottom_toBottomOf="@id/vp_vehicle"
+        app:layout_constraintBottom_toBottomOf="@id/rv_gallery"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/vp_vehicle" />
+        app:layout_constraintTop_toTopOf="@id/rv_gallery" />
 
     <View
         android:layout_width="match_parent"
@@ -53,7 +53,7 @@
         android:padding="@dimen/_4_dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="@id/vp_vehicle"
+        app:layout_constraintBottom_toBottomOf="@id/rv_gallery"
         app:layout_constraintEnd_toEndOf="@+id/guideline_h"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -72,7 +72,7 @@
         android:padding="@dimen/_4_dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="@id/vp_vehicle"
+        app:layout_constraintBottom_toBottomOf="@id/rv_gallery"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline_h" />
 

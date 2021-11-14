@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -16,7 +17,7 @@ import com.mavenusrs.vehicles.databinding.VehicleRowBinding
 import com.mavenusrs.vehicles.domain.model.Image
 import com.mavenusrs.vehicles.domain.model.Vehicle
 
-class VehicleAdapter :
+class VehicleAdapter(private val onItemClick: (Vehicle) -> Unit) :
     ListAdapter<Vehicle, VehicleAdapter.VehicleWithVPHolder>(VehiclesDiffUtil()) {
 
     private val rvPool = RecyclerView.RecycledViewPool()
@@ -47,12 +48,12 @@ class VehicleAdapter :
     }
 
     override fun onBindViewHolder(holder: VehicleWithVPHolder, position: Int) {
-        Log.d("VehicleAdapter", "onBindViewHolder${callNumber ++}")
+        Log.d("VehicleAdapter", "onBindViewHolder${callNumber++}")
 
         holder.bind(getItem(position))
 
-        holder.vehicleRecyclerView.apply {
-
+        holder.galleryRecyclerView.apply {
+            suppressLayout(true)
             setRecycledViewPool(rvPool)
             PagerSnapHelper().attachToRecyclerView(this)
 
@@ -61,7 +62,7 @@ class VehicleAdapter :
             linearLayoutManager.orientation = RecyclerView.HORIZONTAL
             layoutManager = linearLayoutManager
 
-            val gAdapter = GalleryAdapter()
+            val gAdapter = GalleryAdapter { onItemClick(getItem(position)) }
             adapter = gAdapter
             // to fix viewpager, if there is not images
             gAdapter.submitList(getItem(position).images ?: listOf(Image("")))
@@ -77,7 +78,7 @@ class VehicleAdapter :
 
     class VehicleWithVPHolder(binding: Vehicle2RowBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        val vehicleRecyclerView = binding.vpVehicle
+        val galleryRecyclerView = binding.rvGallery
         private val nextImageView = binding.ivNext
         private val previousImageView = binding.ivPrevious
         private val vehicleTitleTextView = binding.tvTitle
@@ -89,13 +90,13 @@ class VehicleAdapter :
             nextImageView.setOnClickListener {
                 Log.d("VehicleAdapter", "nextImageViewClick")
 
-                val llm = vehicleRecyclerView.layoutManager as LinearLayoutManager
+                val llm = galleryRecyclerView.layoutManager as LinearLayoutManager
                 val currentItemIndex = llm.findFirstCompletelyVisibleItemPosition()
                 val scrollTo = minOf(
                     currentItemIndex + 1,
-                    (vehicleRecyclerView.adapter?.itemCount ?: 0) - 1
+                    (galleryRecyclerView.adapter?.itemCount ?: 0) - 1
                 )
-                vehicleRecyclerView.smoothScrollToPosition(scrollTo)
+                galleryRecyclerView.smoothScrollToPosition(scrollTo)
 
                 bindNavigators(scrollTo)
             }
@@ -103,12 +104,12 @@ class VehicleAdapter :
             previousImageView.setOnClickListener {
                 Log.d("VehicleAdapter", "previousImageViewClick")
 
-                val llm = vehicleRecyclerView.layoutManager as LinearLayoutManager
+                val llm = galleryRecyclerView.layoutManager as LinearLayoutManager
                 val currentItemIndex =
                     llm.findFirstCompletelyVisibleItemPosition()
 
                 val scrollTo = maxOf(currentItemIndex - 1, 0)
-                vehicleRecyclerView.smoothScrollToPosition(scrollTo)
+                galleryRecyclerView.smoothScrollToPosition(scrollTo)
                 bindNavigators(scrollTo)
             }
         }
@@ -134,55 +135,16 @@ class VehicleAdapter :
         fun bindNavigators(currentItemIndex: Int = 0) {
             Log.d(
                 "VehicleAdapter",
-                "current $currentItemIndex size ${vehicleRecyclerView.adapter?.itemCount}"
+                "current $currentItemIndex size ${galleryRecyclerView.adapter?.itemCount}"
             )
 
             val showNext =
-                currentItemIndex < (vehicleRecyclerView.adapter?.itemCount ?: 0) - 1
+                currentItemIndex < (galleryRecyclerView.adapter?.itemCount ?: 0) - 1
             nextImageView.visibility = if (showNext) View.VISIBLE else View.INVISIBLE
 
             val showPrevious = currentItemIndex > 0
             previousImageView.visibility = if (showPrevious) View.VISIBLE else View.INVISIBLE
         }
-    }
-
-    @Deprecated("Task 1")
-    class VehicleViewHolder(binding: VehicleRowBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        private val vehicleImageView = binding.ivVehicle
-        private val vehicleTitleTextView = binding.tvTitle
-        private val vehiclePriceTextView = binding.tvPrice
-        private val vehicleFuelTextView = binding.tvFuel
-        private val vehicleNotesTextView = binding.tvNotes
-
-        fun bind(vehicle: Vehicle) {
-            vehicleFuelTextView.text = vehicle.fuel ?: ""
-            vehiclePriceTextView.text = "${vehicle.price ?: ""}"
-
-            val title = "${vehicle.make ?: ""} / ${vehicle.model ?: ""}"
-            vehicleTitleTextView.text = title
-
-            bindNotes(vehicle.notes)
-
-            val firstImage = vehicle.images?.get(0)?.url ?: ""
-
-            Glide
-                .with(itemView.context)
-                .setDefaultRequestOptions(RequestOptions())
-                .load(firstImage)
-                .centerCrop()
-                .placeholder(R.drawable.place_holder)
-                .into(vehicleImageView)
-        }
-
-        fun bindNotes(noteList: List<String>?) {
-            val notes = StringBuilder()
-            noteList?.map {
-                notes.append(it)
-            }
-            vehicleNotesTextView.text = notes.toString()
-        }
-
     }
 
     companion object {

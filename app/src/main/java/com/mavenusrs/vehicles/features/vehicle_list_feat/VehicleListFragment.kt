@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,7 @@ import com.mavenusrs.vehicles.R
 import com.mavenusrs.vehicles.databinding.FragmentVehicleListBinding
 import com.mavenusrs.vehicles.domain.model.Vehicle
 import com.mavenusrs.vehicles.features.common.StatefulResource
+import com.mavenusrs.vehicles.features.vehicle_details.VehicleDetailsFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -57,7 +59,12 @@ class VehicleListFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        vehicleAdapter = VehicleAdapter()
+        vehicleAdapter = VehicleAdapter{
+            findNavController().navigate(R.id.vehicleDetailsFragment,
+            Bundle().apply {
+                putParcelable(VehicleDetailsFragment.VEHICLE_DETAILS, it)
+            })
+        }
         vehicleAdapter.setHasStableIds(true)
 
         val linearLayoutManager = LinearLayoutManager(requireContext())

@@ -3,6 +3,7 @@ package com.mavenusrs.vehicles.features.vehicle_list_feat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -11,7 +12,8 @@ import com.mavenusrs.vehicles.R
 import com.mavenusrs.vehicles.databinding.VehicleGallaryRowBinding
 import com.mavenusrs.vehicles.domain.model.Image
 
-class GalleryAdapter : ListAdapter<Image, GalleryAdapter.ImageViewHolder>(ImagesDiffUtil()) {
+class GalleryAdapter(private val onItemClick: () -> Unit) :
+    ListAdapter<Image, GalleryAdapter.ImageViewHolder>(ImagesDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         val binding = VehicleGallaryRowBinding
@@ -31,8 +33,13 @@ class GalleryAdapter : ListAdapter<Image, GalleryAdapter.ImageViewHolder>(Images
             holder.bind(imagePath)
         }
     }
+
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         Log.d("GalleryAdapter", "${callNumber++}")
+        holder.itemView.setOnClickListener {
+            onItemClick.invoke()
+        }
+
         holder.bind(getItem(position).url)
     }
 

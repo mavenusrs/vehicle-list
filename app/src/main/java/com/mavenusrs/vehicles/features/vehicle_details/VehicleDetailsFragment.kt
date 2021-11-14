@@ -20,7 +20,7 @@ class VehicleDetailsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-//            vehicle = it.getString(VEHICLE_DETAILS)
+            vehicle = it.getParcelable(VEHICLE_DETAILS)
         }
     }
 
@@ -33,7 +33,7 @@ class VehicleDetailsFragment : Fragment() {
     }
 
     companion object {
-        private const val VEHICLE_DETAILS = "VEHICLE_DETAILS"
+        const val VEHICLE_DETAILS = "VEHICLE_DETAILS"
 
         /**
          * Use this factory method to create a new instance of
@@ -46,7 +46,7 @@ class VehicleDetailsFragment : Fragment() {
         fun newInstance() =
             VehicleDetailsFragment().apply {
                 arguments = Bundle().apply {
-//                    putParcelable(VEHICLE_DETAILS, vehicle)
+                    putParcelable(VEHICLE_DETAILS, vehicle)
                 }
             }
     }
