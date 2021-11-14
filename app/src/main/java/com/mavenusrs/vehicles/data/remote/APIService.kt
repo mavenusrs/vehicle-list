@@ -8,8 +8,8 @@ import retrofit2.http.GET
 interface APIService {
 
     @GET("http://private-fe87c-simpleclassifieds.apiary-mock.com/")
-    suspend fun getVehicles(): Response<List<VehicleEntity?>?>
+    suspend fun getVehicles(): Response<List<VehicleEntity>?>
 
     @GET("https://private-e7c3d8-classifiednotes.apiary-mock.com/")
-    suspend fun getVehiclesNotes(): Response<List<NoteEntity?>?>
+    suspend fun getVehiclesNotes(): Response<List<NoteEntity>?>
 }

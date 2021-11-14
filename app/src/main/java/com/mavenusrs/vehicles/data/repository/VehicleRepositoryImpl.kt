@@ -13,13 +13,13 @@ import javax.inject.Inject
 class VehicleRepositoryImpl @Inject constructor(private val apiService: APIService) :
     VehicleRepository {
 
-    override suspend fun getVehicles(): Flow<Resource<List<Vehicle?>?>> = flow {
+    override suspend fun getVehicles(): Flow<Resource<List<Vehicle>?>> = flow {
         val response = apiService.getVehicles()
         emit(when (response.isSuccessful) {
             true -> {
                 response.body()?.let {
                     Resource.Success(it.map { vehicle ->
-                        vehicle?.mapTo()
+                        vehicle.mapTo()
                     })
                 } ?: Resource.Failed(failureType = Resource.FailureType.DATA_FAILURE)
             }

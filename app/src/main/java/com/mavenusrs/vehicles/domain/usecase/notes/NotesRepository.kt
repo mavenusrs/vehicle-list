@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface NotesRepository {
 
-    suspend fun getVehiclesNotes(): Flow<Resource<List<Note?>?>>
+    suspend fun getVehiclesNotes(): Flow<Resource<List<Note>?>>
 }

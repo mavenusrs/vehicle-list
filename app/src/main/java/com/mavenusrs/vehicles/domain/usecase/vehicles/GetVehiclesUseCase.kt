@@ -9,9 +9,9 @@ import javax.inject.Inject
 
 @ViewModelScoped
 class GetVehiclesUseCase @Inject constructor(private val vehiclesRepository: VehicleRepository) :
-    BaseUseCase<Unit, List<Vehicle?>?>() {
+    BaseUseCase<Unit, List<Vehicle>?>() {
 
-    override suspend fun run(param: Unit): Flow<Resource<List<Vehicle?>?>> {
+    override suspend fun run(param: Unit): Flow<Resource<List<Vehicle>?>> {
         return vehiclesRepository.getVehicles()
     }
 

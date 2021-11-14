@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface VehicleRepository {
 
-    suspend fun getVehicles(): Flow<Resource<List<Vehicle?>?>>
+    suspend fun getVehicles(): Flow<Resource<List<Vehicle>?>>
 }

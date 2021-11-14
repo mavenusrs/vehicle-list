@@ -26,7 +26,7 @@ class NotesRepositoryImplTest : UnitTest() {
     private lateinit var apiService: APIService
 
     @MockK
-    private lateinit var notesResponse: Response<List<NoteEntity?>?>
+    private lateinit var notesResponse: Response<List<NoteEntity>?>
 
     @Before
     fun setup() {
@@ -42,7 +42,7 @@ class NotesRepositoryImplTest : UnitTest() {
         val notes = notesRepository.getVehiclesNotes()
         notes.collect {
             Truth.assertThat(it).isEqualTo(
-                Resource.Failed<List<Note?>?>(
+                Resource.Failed<List<Note>?>(
                     null,
                     failureType = Resource.FailureType.DATA_FAILURE
                 )

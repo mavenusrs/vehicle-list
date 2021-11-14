@@ -23,8 +23,8 @@ class VehicleListViewModel @Inject constructor(
     ViewModel() {
     private val job = Job()
 
-    private val _vehiclesLiveData = MutableLiveData<StatefulResource<List<Vehicle?>?>>()
-    val vehicleLiveData: LiveData<StatefulResource<List<Vehicle?>?>>
+    private val _vehiclesLiveData = MutableLiveData<StatefulResource<List<Vehicle>?>>()
+    val vehicleLiveData: LiveData<StatefulResource<List<Vehicle>?>>
         get() = _vehiclesLiveData
 
     fun getVehicles() {
@@ -55,23 +55,19 @@ class VehicleListViewModel @Inject constructor(
         }
     }
 
-    private fun handleNotesError(failed: Resource.Failed<List<Note?>?>) {
+    private fun handleNotesError(failed: Resource.Failed<List<Note>?>) {
         Log.d("error:", " ${failed.data?.message ?: failed.failureType}")
     }
 
-    private fun handleNotesSuccess(notes: List<Note?>?) {
+    private fun handleNotesSuccess(notes: List<Note>?) {
         _vehiclesLiveData.value?.data?.map { vehicle ->
-            if (vehicle == null)
-                return@map
 
             notes?.filter { notes ->
-                if (notes == null)
-                    return@filter false
                 notes.vehicleId == vehicle.id
             }?.map {
                 if (vehicle.notes == null)
                     vehicle.notes = mutableListOf()
-                vehicle.notes!!.add(it?.note)
+                vehicle.notes!!.add(it.note)
             }
         }
     }
@@ -83,8 +79,8 @@ class VehicleListViewModel @Inject constructor(
         )
     }
 
-    private fun handleVehiclesSuccess(vehicles: List<Vehicle?>?) {
-        if (vehicles == null) {
+    private fun handleVehiclesSuccess(vehicles: List<Vehicle>?) {
+        if (vehicles == null || vehicles.isEmpty()) {
             _vehiclesLiveData.value = StatefulResource(
                 status = StatefulResource.Status.IS_EMPTY
             )

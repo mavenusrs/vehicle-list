@@ -30,9 +30,9 @@ class VehicleListViewModelTest : UnitTest() {
 
     private lateinit var vehicleListViewModel: VehicleListViewModel
 
-    private var vehicles: List<Vehicle?>? = null
+    private var vehicles: List<Vehicle>? = null
 
-    private var notes: List<Note?>? = null
+    private var notes: List<Note>? = null
 
     @Before
     fun setup() {
@@ -69,7 +69,7 @@ class VehicleListViewModelTest : UnitTest() {
     fun `get vehicles should return success`() {
 
         every { getVehiclesUseCase(any(), Unit, any()) }.answers {
-            thirdArg<(Resource<List<Vehicle?>?>) -> Unit>()(Resource.Success(vehicles))
+            thirdArg<(Resource<List<Vehicle>?>) -> Unit>()(Resource.Success(vehicles))
         }
 
         vehicleListViewModel.getVehicles()
@@ -87,25 +87,25 @@ class VehicleListViewModelTest : UnitTest() {
     fun `get vehicles should return empty`() {
 
         every { getVehiclesUseCase(any(), Unit, any()) }.answers {
-            thirdArg<(Resource<List<Vehicle?>?>) -> Unit>()(Resource.Success(emptyList()))
+            thirdArg<(Resource<List<Vehicle>?>) -> Unit>()(Resource.Success(emptyList()))
         }
 
         vehicleListViewModel.getVehicles()
 
         val statefulResponse = vehicleListViewModel.vehicleLiveData.getOrAwaitValue()
-        Truth.assertThat(statefulResponse.status).isEqualTo(StatefulResource.Status.SUCCESSES)
+        Truth.assertThat(statefulResponse.status).isEqualTo(StatefulResource.Status.IS_EMPTY)
         Truth.assertThat(statefulResponse.errorMessage).isNull()
         Truth.assertThat(statefulResponse.status).isNotEqualTo(StatefulResource.Status.LOADING)
         Truth.assertThat(statefulResponse.status).isNotEqualTo(StatefulResource.Status.FAILED)
 
-        Truth.assertThat(statefulResponse.data).isEqualTo(emptyList<Vehicle>())
+        Truth.assertThat(statefulResponse.data).isEqualTo(null)
     }
 
     @Test
     fun `get vehicles should return error`() {
 
         every { getVehiclesUseCase(any(), Unit, any()) }.answers {
-            thirdArg<(Resource<List<Vehicle?>?>) -> Unit>()(Resource.Failed(failureType = Resource.FailureType.SERVER_FAILURE))
+            thirdArg<(Resource<List<Vehicle>?>) -> Unit>()(Resource.Failed(failureType = Resource.FailureType.SERVER_FAILURE))
         }
 
         vehicleListViewModel.getVehicles()
@@ -124,11 +124,11 @@ class VehicleListViewModelTest : UnitTest() {
         val note = "note 2"
         val vehicleId = 2
         every { getVehiclesUseCase(any(), Unit, any()) }.answers {
-            thirdArg<(Resource<List<Vehicle?>?>) -> Unit>()(Resource.Success(vehicles))
+            thirdArg<(Resource<List<Vehicle>?>) -> Unit>()(Resource.Success(vehicles))
         }
 
         every { getVehiclesNotesUseCase(any(), Unit, any()) }.answers {
-            thirdArg<(Resource<List<Note?>?>) -> Unit>()(Resource.Success(notes))
+            thirdArg<(Resource<List<Note>?>) -> Unit>()(Resource.Success(notes))
         }
 
         vehicleListViewModel.getVehicles()

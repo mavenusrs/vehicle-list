@@ -24,7 +24,7 @@ class VehicleRepositoryImplTest : UnitTest() {
     private lateinit var apiService: APIService
 
     @MockK
-    private lateinit var vehicleResponse: Response<List<VehicleEntity?>?>
+    private lateinit var vehicleResponse: Response<List<VehicleEntity>?>
 
     @Before
     fun setup() {
