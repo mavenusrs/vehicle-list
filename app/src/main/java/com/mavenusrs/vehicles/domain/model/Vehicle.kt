@@ -13,5 +13,5 @@ data class Vehicle(
     val modelline: String?,
     val price: Int?,
     val seller: Seller?,
-    var notes: MutableList<String?>? = null
+    var notes: List<String>? = null
 )

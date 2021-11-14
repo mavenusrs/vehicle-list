@@ -58,4 +58,15 @@
         app:layout_constraintBottom_toTopOf="@+id/tv_price"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:id="@+id/tv_notes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_4_dp"
+        android:textColor="@color/white"
+        android:background="@color/text_bg"
+        android:gravity="start"
+        app:layout_constraintBottom_toTopOf="@+id/tv_title"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

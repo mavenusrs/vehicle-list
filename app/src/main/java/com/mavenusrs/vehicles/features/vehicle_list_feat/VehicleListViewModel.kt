@@ -61,15 +61,17 @@ class VehicleListViewModel @Inject constructor(
 
     private fun handleNotesSuccess(notes: List<Note>?) {
         _vehiclesLiveData.value?.data?.map { vehicle ->
-
+            val n = mutableListOf<String>()
             notes?.filter { notes ->
                 notes.vehicleId == vehicle.id
             }?.map {
-                if (vehicle.notes == null)
-                    vehicle.notes = mutableListOf()
-                vehicle.notes!!.add(it.note)
+                n.add(it.note ?: "")
             }
+
+            vehicle.notes = n.toList()
         }
+        // force update liveData
+        _vehiclesLiveData.postValue(_vehiclesLiveData.value)
     }
 
     private fun handleError(error: Resource.Failed<*>) {

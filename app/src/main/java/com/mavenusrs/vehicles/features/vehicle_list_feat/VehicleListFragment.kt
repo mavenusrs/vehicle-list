@@ -1,6 +1,7 @@
 package com.mavenusrs.vehicles.features.vehicle_list_feat
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -105,12 +106,13 @@ class VehicleListFragment : Fragment() {
     }
 
     private fun onVehiclesLoaded(data: List<Vehicle>?) {
+        Log.d("VehicleListFragment", "onVehiclesLoaded${data?.get(1)?.notes?.get(0)}")
         hideLoading()
         binding.tvEmptyMsg.visibility = View.GONE
         binding.rvVehicles.visibility = View.VISIBLE
 
         data?.apply {
-            vehicleAdapter.setItems(this)
+            vehicleAdapter.submitList(this)
         }
     }
 
