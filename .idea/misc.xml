@@ -9,6 +9,8 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_vehicle_details.xml" value="0.2046875" />
         <entry key="app/src/main/res/layout/fragment_vehicle_list.xml" value="0.21875" />
+        <entry key="app/src/main/res/layout/vehicle_gallary_row.xml" value="0.16485507246376813" />
+        <entry key="app/src/main/res/layout/vehicle_image_row.xml" value="0.16485507246376813" />
         <entry key="app/src/main/res/layout/vehicle_row.xml" value="0.4585152838427948" />
       </map>
     </option>

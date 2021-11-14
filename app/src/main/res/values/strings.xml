@@ -5,4 +5,6 @@
     <string name="general_error_message">An error has occured, please try again later</string>
     <string name="there_is_no_vehicles">There is no vehicles</string>
     <string name="vehicle_image_hint">Vehicle image</string>
+    <string name="previous_image">Previous image</string>
+    <string name="next_image">Next Image</string>
 </resources>
