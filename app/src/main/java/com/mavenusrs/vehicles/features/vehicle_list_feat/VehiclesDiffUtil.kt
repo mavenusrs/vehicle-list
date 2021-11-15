@@ -3,7 +3,7 @@ package com.mavenusrs.vehicles.features.vehicle_list_feat
 import androidx.recyclerview.widget.DiffUtil
 import com.mavenusrs.vehicles.domain.model.Vehicle
 
-class VehiclesDiffUtil() : DiffUtil.ItemCallback<Vehicle>() {
+class VehiclesDiffUtil : DiffUtil.ItemCallback<Vehicle>() {
 
     override fun getChangePayload(oldItem: Vehicle, newItem: Vehicle): Any? {
         if (newItem.notes?.size != oldItem.notes?.size)

@@ -75,7 +75,7 @@ class VehicleRepositoryImplTest : UnitTest() {
             "Audi",
             0,
             "A8",
-            "quattro",
+            "Quite-tro",
             16000, null
         )
         val vehicleEntityList = listOf(vehicleEntity)

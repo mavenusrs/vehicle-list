@@ -2,10 +2,6 @@ package com.mavenusrs.common
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import io.mockk.every
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.runs
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException

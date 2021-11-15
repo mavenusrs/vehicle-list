@@ -141,7 +141,7 @@ class VehicleListViewModelTest : UnitTest() {
 
 
         Truth.assertThat(statefulResponse.data?.filter {
-            it?.id == vehicleId
+            it.id == vehicleId
         }?.get(0)?.notes?.get(0)).isEqualTo(note)
 
 

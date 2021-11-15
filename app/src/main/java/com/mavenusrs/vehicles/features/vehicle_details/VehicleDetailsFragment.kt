@@ -1,12 +1,10 @@
 package com.mavenusrs.vehicles.features.vehicle_details
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import com.mavenusrs.vehicles.R
+import androidx.fragment.app.Fragment
 import com.mavenusrs.vehicles.databinding.FragmentVehicleDetailsBinding
 import com.mavenusrs.vehicles.domain.model.Vehicle
 
@@ -40,7 +38,7 @@ class VehicleDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tvVehicleDetails.text = """
+        val vehicleContent = """
                 Not implemented because it is not required in the three tasks 
                 
                 model: ${vehicle?.make} make: ${vehicle?.model}  
@@ -49,6 +47,7 @@ class VehicleDetailsFragment : Fragment() {
                 Notes: ${vehicle?.notes?.joinToString(",") ?: ""}
                 Fuel : ${vehicle?.fuel ?: ""}
             """.trimIndent()
+        binding.tvVehicleDetails.text = vehicleContent
     }
 
     companion object {
@@ -62,7 +61,7 @@ class VehicleDetailsFragment : Fragment() {
          * @return A new instance of fragment VehicleDetailsFragment.
          */
         @JvmStatic
-        fun newInstance() =
+        fun newInstance(vehicle: Vehicle) =
             VehicleDetailsFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(VEHICLE_DETAILS, vehicle)

@@ -10,7 +10,6 @@ sealed class Resource<out T> {
     enum class FailureType {
         DATA_FAILURE,
         SERVER_FAILURE,
-        NETWORK_FAILURE,
         GENERAL_FAILURE
     }
 }

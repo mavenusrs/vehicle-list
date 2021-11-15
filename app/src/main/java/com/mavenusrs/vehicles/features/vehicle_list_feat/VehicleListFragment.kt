@@ -27,7 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class VehicleListFragment : Fragment() {
 
-    lateinit var binding: FragmentVehicleListBinding
+    private lateinit var binding: FragmentVehicleListBinding
     private val vehicleListViewModel: VehicleListViewModel by viewModels()
 
     private lateinit var vehicleAdapter: VehicleAdapter

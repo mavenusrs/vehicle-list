@@ -4,16 +4,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.mavenusrs.vehicles.R
 import com.mavenusrs.vehicles.databinding.Vehicle2RowBinding
-import com.mavenusrs.vehicles.databinding.VehicleRowBinding
 import com.mavenusrs.vehicles.domain.model.Image
 import com.mavenusrs.vehicles.domain.model.Vehicle
 

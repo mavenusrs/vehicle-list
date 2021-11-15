@@ -3,7 +3,6 @@ package com.mavenusrs.vehicles.domain.usecase.notes
 import com.mavenusrs.vehicles.common.BaseUseCase
 import com.mavenusrs.vehicles.common.Resource
 import com.mavenusrs.vehicles.domain.model.Note
-import com.mavenusrs.vehicles.domain.model.Vehicle
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
