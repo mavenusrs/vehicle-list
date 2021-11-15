@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.mavenusrs.vehicles.R
+import com.mavenusrs.vehicles.databinding.FragmentVehicleDetailsBinding
 import com.mavenusrs.vehicles.domain.model.Vehicle
 
 
@@ -15,6 +17,9 @@ import com.mavenusrs.vehicles.domain.model.Vehicle
  * create an instance of this fragment.
  */
 class VehicleDetailsFragment : Fragment() {
+
+    private lateinit var binding: FragmentVehicleDetailsBinding
+
     private var vehicle: Vehicle? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,9 +32,23 @@ class VehicleDetailsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_vehicle_details, container, false)
+    ): View {
+        binding = FragmentVehicleDetailsBinding.inflate(layoutInflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.tvVehicleDetails.text = """
+                Not implemented because it is not required in the three tasks 
+                
+                model: ${vehicle?.make} make: ${vehicle?.model}  
+                description: ${vehicle?.description ?: ""} 
+                firstRegistration: ${vehicle?.firstRegistration ?: ""}
+                Notes: ${vehicle?.notes?.joinToString(",") ?: ""}
+                Fuel : ${vehicle?.fuel ?: ""}
+            """.trimIndent()
     }
 
     companion object {
